@@ -1,5 +1,6 @@
-import { useState } from 'react';
+import { Component, useState } from 'react';
 import App23 from './23. Why You Need React Query/App23';
+import App24 from './24. Query Options/App24';
 
 const postTitles = [
   '#1: Practical React Query',
@@ -29,11 +30,16 @@ const postTitles = [
   '#25: Automatic Query Invalidation after Mutations',
 ];
 
+const PostComponent: Map<number, JSX.Element> = new Map([
+  [23, <App23 />],
+  [24, <App24 />],
+]);
+
 function App() {
   const [postId, setPostId] = useState(1);
 
-  const showPost = () => {
-    if (postId === 23) return <App23 />;
+  const showPost = (index: number) => {
+    if (PostComponent.has(index)) return PostComponent.get(index);
     return <div className="text-3xl text-red-500">번역 아직 안함</div>;
   };
 
@@ -52,7 +58,7 @@ function App() {
       <h1 className="text-5xl">글을 선택해주세요</h1>
       {renderNavigationList()}
       <h2 className="text-4xl">보고있는 글: {postId}번</h2>
-      {showPost()}
+      {showPost(postId)}
     </div>
   );
 }
